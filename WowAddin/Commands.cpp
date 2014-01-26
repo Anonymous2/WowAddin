@@ -94,20 +94,11 @@ BOOL CCommand_ShowObjects(char const* cmd, char const* args)
 
 BOOL CCommand_TaxiBenchmarkServer(char const* cmd, char const* args)
 {
-    long floodCount = atoi(args);
-
-    for (long i = 0; i < floodCount; ++i)
-    {
-        CDataStore data;
-        data.PutInt32(CMSG_SET_TAXI_BENCHMARK_MODE);
-        data.PutInt8(1);
-        ClientServices::SendPacket(&data);
-        Console::Write("", ECHO_COLOR);
-    }
-
-    std::ostringstream ss;
-    ss << "Sent CMSG_SET_TAXI_BENCHMARK_MODE " << floodCount << " times";
-    Console::Write(ss.str().c_str(), ECHO_COLOR);
+    CDataStore data;
+    data.PutInt32(CMSG_SET_TAXI_BENCHMARK_MODE);
+    data.PutInt8(1);
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_SET_TAXI_BENCHMARK_MODE", ECHO_COLOR);
     return true;
 }
 
