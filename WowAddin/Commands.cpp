@@ -413,3 +413,49 @@ BOOL CCommand_TextEmoteCommand(char const* cmd, char const* args)
     Console::Write("CMSG_TEXT_EMOTE", ECHO_COLOR);
     return true;
 }
+
+BOOL CCommand_RefundItem(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_ITEM_REFUND);
+    data.PutInt64(atoi(args)); // guid
+    data.Finalize();
+    ClientServices::SendGamePacket(&data);
+    return true;
+}
+
+BOOL CCommand_TalentWipeConfirm(char const* cmd, char const* args)
+{
+    if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
+    {
+        if (CGObject_C* target = ObjectMgr::GetObjectPtr(player->GetValue<uint64>(UNIT_FIELD_TARGET), TYPEMASK_UNIT))
+        {
+            CDataStore data;
+            data.PutInt32(MSG_TALENT_WIPE_CONFIRM);
+            data.PutInt64(target->GetValue<uint64>(OBJECT_FIELD_GUID));
+            data.Finalize();
+            ClientServices::SendGamePacket(&data);
+            Console::Write("MSG_TALENT_WIPE_CONFIRM", ECHO_COLOR);
+        }
+    }
+
+    return true;
+}
+
+BOOL CCommand_SpiritHealerActivate(char const* cmd, char const* args)
+{
+    uint64 guid = *(uint64*)0x00BD07A0;
+    Console::Write("Mouseover GUID: %ul", ECHO_COLOR, guid);
+
+    if (guid)
+    {
+        CDataStore data;
+        data.PutInt32(CMSG_SPIRIT_HEALER_ACTIVATE);
+        data.PutInt64(guid);
+        data.Finalize();
+        ClientServices::SendGamePacket(&data);
+        Console::Write("CMSG_SPIRIT_HEALER_ACTIVATE", ECHO_COLOR);
+    }
+
+    return true;
+}
