@@ -1,4 +1,8 @@
 #include "stdafx.h"
+#include <sstream>
+#include <list>
+#include <vector>
+#include <map>
 
 BOOL CCommand_TestCommand(char const* cmd, char const* args)
 {
@@ -86,4 +90,18 @@ BOOL CCommand_ShowObjects(char const* cmd, char const* args)
     ObjectMgr::EnumVisibleObjects(ShowObjectsEnumProc, NULL);
 
     return TRUE;
+}
+
+BOOL CCommand_CreateGuildCommand(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_GUILD_CREATE);
+    std::string guildname = std::string(args);
+    data.PutString(guildname.c_str());
+    ClientServices::SendPacket(&data);
+
+    std::ostringstream ss;
+    ss << "Sent CMSG_GUILD_CREATE with guildname " << guildname.c_str() << ". Args: " << args;
+    Console::Write(ss.str().c_str(), ECHO_COLOR);
+    return true;
 }
