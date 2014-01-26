@@ -321,3 +321,20 @@ BOOL CCommand_UseItem(char const* cmd, char const* args)
     Console::Write("CMSG_USE_ITEM", ECHO_COLOR);
     return true;
 }
+
+BOOL CCommand_HonorInspectCommand(char const* cmd, char const* args)
+{
+    uint64 guid = *(uint64*)0x00BD07A0;
+    Console::Write("Mouseover GUID: %ul", ECHO_COLOR, guid);
+
+    if (guid)
+    {
+        CDataStore data;
+        data.PutInt32(MSG_INSPECT_HONOR_STATS);
+        data.PutInt64(guid);
+        ClientServices::SendPacket(&data);
+        Console::Write("MSG_INSPECT_HONOR_STATS", ECHO_COLOR);
+    }
+
+    return true;
+}
