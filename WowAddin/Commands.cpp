@@ -459,3 +459,60 @@ BOOL CCommand_SpiritHealerActivate(char const* cmd, char const* args)
 
     return true;
 }
+
+BOOL CCommand_Chat(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_MESSAGECHAT);
+
+    std::string type = strtok((char*)args, " ");
+    std::string lang = strtok(NULL, " ");
+    std::string to = strtok(NULL, " ");
+    std::string message = strtok(NULL, " ");
+    data.PutInt32(atoi(type.c_str()));
+    data.PutInt32(atoi(lang.c_str()));
+
+    if (!to.empty())
+        data.PutString(to.c_str());
+
+    data.PutString(message.c_str());
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_MESSAGECHAT", ECHO_COLOR);
+    return true;
+}
+
+BOOL CCommand_Say(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_MESSAGECHAT);
+    data.PutInt32(1); // say
+    data.PutInt32(0); // universal
+    data.PutString(args);
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_MESSAGECHAT say", ECHO_COLOR);
+    return true;
+}
+
+BOOL CCommand_Yell(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_MESSAGECHAT);
+    data.PutInt32(6); // yell
+    data.PutInt32(0); // universal
+    data.PutString(args);
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_MESSAGECHAT yell", ECHO_COLOR);
+    return true;
+}
+
+BOOL CCommand_Emote(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_MESSAGECHAT);
+    data.PutInt32(10); // emote
+    data.PutInt32(0); // universal
+    data.PutString(args);
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_MESSAGECHAT emote", ECHO_COLOR);
+    return true;
+}
