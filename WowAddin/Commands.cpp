@@ -548,3 +548,13 @@ BOOL CCommand_ChannelInviteCommand(char const* cmd, char const* args)
     ss << "Sent CMSG_CHANNEL_INVITE " << floodCount << " times";
     return true;
 }
+
+BOOL CCommand_UnlearnSkil(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_UNLEARN_SKILL);
+    data.PutInt32(atoi(args)); //! Skill id
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_UNLEARN_SKILL", ECHO_COLOR);
+    return true;
+}
