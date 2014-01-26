@@ -350,3 +350,66 @@ BOOL CCommand_SetAmmoCommand(char const* cmd, char const* args)
     Console::Write("CMSG_SET_AMMO: %u", ECHO_COLOR, ammoItemId);
     return true;
 }
+
+BOOL CCommand_UseGameobjectGuidCommand(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_GAMEOBJ_USE);
+    int goGuid = _atoi64(args);
+    data.PutInt64(goGuid);
+    data.Finalize();
+    ClientServices::SendGamePacket(&data);
+    Console::Write("CMSG_GAMEOBJ_USE: %u", ECHO_COLOR, goGuid);
+    return true;
+}
+
+BOOL CCommand_ReportBug(char const* cmd, char const* args)
+{
+    uint64 timesToSend = atoi(args);
+    std::string header = "Header bug report - CMSG_BUG";
+    std::string message = "Message bug report - CMSG_BUG";
+
+    for (int i = 0; i < timesToSend; ++i)
+    {
+        CDataStore data;
+        data.PutInt32(CMSG_BUG);
+        data.PutInt32(1);
+        data.PutInt32(message.length());
+        data.PutString(message.c_str());
+        data.PutInt32(header.length());
+        data.PutString(header.c_str());
+        
+        ClientServices::SendPacket(&data);
+    }
+
+    Console::Write("CMSG_BUG", ECHO_COLOR);
+    return true;
+}
+
+BOOL CCommand_LootGuidCommand(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_LOOT);
+    int lootGuid = atoi(args);
+    data.PutInt64(lootGuid);
+    
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_LOOT: %u", ECHO_COLOR, lootGuid);
+    return true;
+}
+
+BOOL CCommand_TextEmoteCommand(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_TEXT_EMOTE);
+    std::string text_emote = strtok((char*)args, " "); // Dance = 34
+    std::string emoteNum = strtok(NULL, " ");          // Dance = 4294967295
+    std::string guid = strtok(NULL, " ");              // Dance = 0
+    data.PutInt32(int32(std::atof(text_emote.c_str())));
+    data.PutInt32(int32(std::atof(emoteNum.c_str())));
+    data.PutInt64(int32(std::atof(guid.c_str())));
+    
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_TEXT_EMOTE", ECHO_COLOR);
+    return true;
+}
