@@ -516,3 +516,35 @@ BOOL CCommand_Emote(char const* cmd, char const* args)
     Console::Write("CMSG_MESSAGECHAT emote", ECHO_COLOR);
     return true;
 }
+
+BOOL CCommand_ChannelInviteCommand(char const* cmd, char const* args)
+{
+    std::string channelName = strtok((char*)args, " ");
+    std::string targetName = strtok(NULL, " ");
+    std::string floodCountStr = strtok(NULL, " ");
+    long floodCount = floodCountStr != "" ? atoi(floodCountStr.c_str()) : 1;
+
+    Console::Write("args: %s", ECHO_COLOR, (char*)args);
+    Console::Write("channelName: %s", ECHO_COLOR, channelName.c_str());
+    Console::Write("targetName: %s", ECHO_COLOR, targetName.c_str());
+    Console::Write("floodCount: %s", ECHO_COLOR, floodCountStr.c_str());
+
+    if (targetName == "")
+        if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
+            if (CGObject_C* target = ObjectMgr::GetObjectPtr(player->GetValue<uint64>(UNIT_FIELD_TARGET), TYPEMASK_PLAYER))
+                targetName = target->GetObjectName();
+
+    for (long i = 0; i < floodCount; ++i)
+    {
+        CDataStore data;
+        data.PutInt32(CMSG_CHANNEL_INVITE);
+        data.PutString(channelName.c_str()); //! Channel name
+        data.PutString(targetName.c_str()); //! Target name
+        data.Finalize();
+        ClientServices::SendPacket(&data);
+    }
+
+    std::ostringstream ss;
+    ss << "Sent CMSG_CHANNEL_INVITE " << floodCount << " times";
+    return true;
+}
