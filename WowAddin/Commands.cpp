@@ -417,7 +417,7 @@ BOOL CCommand_TextEmoteCommand(char const* cmd, char const* args)
 BOOL CCommand_RefundItem(char const* cmd, char const* args)
 {
     CDataStore data;
-    data.PutInt32(CMSG_ITEM_REFUND);
+    data.PutInt32(CMSG_ITEM_PURCHASE_REFUND);
     data.PutInt64(atoi(args)); // guid
     data.Finalize();
     ClientServices::SendGamePacket(&data);
@@ -556,5 +556,16 @@ BOOL CCommand_UnlearnSkil(char const* cmd, char const* args)
     data.PutInt32(atoi(args)); //! Skill id
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_UNLEARN_SKILL", ECHO_COLOR);
+    return true;
+}
+
+BOOL CCommand_ActiveGuildBank(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_GUILD_BANKER_ACTIVATE);
+    data.PutInt64(17370386905627141050); //! Stormwind bank
+    data.PutInt8(1); //! sendallSlots
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_GUILD_BANKER_ACTIVATE", ECHO_COLOR);
     return true;
 }
