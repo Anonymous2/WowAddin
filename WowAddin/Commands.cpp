@@ -338,3 +338,15 @@ BOOL CCommand_HonorInspectCommand(char const* cmd, char const* args)
 
     return true;
 }
+
+BOOL CCommand_SetAmmoCommand(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_SET_AMMO);
+    int ammoItemId = atoi(args);
+    data.PutInt32(ammoItemId);
+    
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_SET_AMMO: %u", ECHO_COLOR, ammoItemId);
+    return true;
+}
