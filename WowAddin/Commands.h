@@ -34,3 +34,5 @@ BOOL CCommand_Chat(char const* cmd, char const* args);
 BOOL CCommand_Say(char const* cmd, char const* args);
 BOOL CCommand_Yell(char const* cmd, char const* args);
 BOOL CCommand_Emote(char const* cmd, char const* args);
+BOOL CCommand_ActivateTaxi(char const* cmd, char const* args);
+BOOL CCommand_FinishTaxi(char const* cmd, char const* args);

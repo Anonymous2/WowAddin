@@ -81,6 +81,8 @@ void InstallGameConsoleCommands()
     Console::RegisterCommand("say", CCommand_Say, CATEGORY_DEBUG, "");
     Console::RegisterCommand("yell", CCommand_Yell, CATEGORY_DEBUG, "");
     Console::RegisterCommand("emote", CCommand_Emote, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("taxi", CCommand_ActivateTaxi, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("finishtaxi", CCommand_FinishTaxi, CATEGORY_DEBUG, "");
 
     InstallGMCommands();
 }

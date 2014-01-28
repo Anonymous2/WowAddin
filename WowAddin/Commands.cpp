@@ -579,3 +579,62 @@ BOOL CCommand_ActiveGuildBank(char const* cmd, char const* args)
     Console::Write("CMSG_GUILD_BANKER_ACTIVATE", ECHO_COLOR);
     return true;
 }
+
+BOOL CCommand_ActivateTaxi(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_ACTIVATETAXI);
+
+    if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
+    {
+        if (CGObject_C* target = ObjectMgr::GetObjectPtr(player->GetValue<uint64>(UNIT_FIELD_TARGET), TYPEMASK_UNIT))
+            data.PutInt64(target->GetValue<uint64>(OBJECT_FIELD_GUID));
+        else
+            return true;
+    }
+    else
+        return true;
+
+    std::string takeOffNode = strtok((char*)args, " ");
+    std::string lastNode = strtok(NULL, " ");
+    data.PutInt32(atoi(takeOffNode.c_str()));
+    data.PutInt32(atoi(lastNode.c_str()));//172); // 198 is programmer's island
+    data.Finalize();
+    ClientServices::SendPacket(&data);
+
+    CDataStore data2;
+    data2.PutInt32(CMSG_MOVE_SPLINE_DONE);
+    data2.PutInt64(0);
+    data2.PutInt32(0);
+    data2.PutInt16(0);
+    data2.PutInt32(0);
+    data2.PutFloat(0);
+    data2.PutFloat(0);
+    data2.PutFloat(0);
+    data2.PutFloat(0);
+    data2.PutInt32(0);
+    data2.PutInt32(0);
+    data2.Finalize();
+    ClientServices::SendGamePacket(&data2);
+    Console::Write("CMSG_ACTIVATETAXI + CMSG_MOVE_SPLINE_DONE. Try with 23, 198 for orgrimmar -> programmer's island", ECHO_COLOR);
+    return true;
+}
+
+BOOL CCommand_FinishTaxi(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_MOVE_SPLINE_DONE);
+    data.PutInt64(0);
+    data.PutInt32(0);
+    data.PutInt16(0);
+    data.PutInt32(0);
+    data.PutFloat(0);
+    data.PutFloat(0);
+    data.PutFloat(0);
+    data.PutFloat(0);
+    data.PutInt32(0);
+    data.PutInt32(0);
+    data.Finalize();
+    ClientServices::SendGamePacket(&data);
+    return true;
+}
