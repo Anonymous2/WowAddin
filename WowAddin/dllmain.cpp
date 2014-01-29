@@ -83,6 +83,7 @@ void InstallGameConsoleCommands()
     Console::RegisterCommand("emote", CCommand_Emote, CATEGORY_DEBUG, "");
     Console::RegisterCommand("taxi", CCommand_ActivateTaxi, CATEGORY_DEBUG, "");
     Console::RegisterCommand("finishtaxi", CCommand_FinishTaxi, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("usemouseovergo", CCommand_UseMouseOverGameobject, CATEGORY_DEBUG, "");
 
     InstallGMCommands();
 }

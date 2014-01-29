@@ -136,7 +136,6 @@ BOOL CCommand_SendIgnoreCommand(char const* cmd, char const* args)
         data.PutInt32(CMSG_CHAT_IGNORED);
         data.PutInt64(targetGuid);
         data.PutInt8(1); // unk
-
         ClientServices::SendPacket(&data);
     }
 
@@ -630,5 +629,23 @@ BOOL CCommand_FinishTaxi(char const* cmd, char const* args)
     data.PutInt32(0);
     data.Finalize();
     ClientServices::SendGamePacket(&data);
+    return true;
+}
+
+BOOL CCommand_UseMouseOverGameobject(char const* cmd, char const* args)
+{
+    uint64 guid = *(uint64*)0x00BD07A0;
+    Console::Write("Mouseover GUID: %ul", ECHO_COLOR, guid);
+
+    if (guid)
+    {
+        CDataStore data;
+        data.PutInt32(CMSG_GAMEOBJ_USE);
+        data.PutInt64(guid);
+        data.Finalize();
+        ClientServices::SendGamePacket(&data);
+        Console::Write("CMSG_GAMEOBJ_USE", ECHO_COLOR);
+    }
+
     return true;
 }
