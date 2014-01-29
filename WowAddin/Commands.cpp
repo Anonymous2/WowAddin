@@ -142,11 +142,11 @@ BOOL CCommand_SendIgnoreCommand(char const* cmd, char const* args)
             data.PutInt64(ObjectMgr::GetActivePlayerGuid()); // guid (just send own, we need to send one..)
 
         data.PutInt8(1); // unk
-        
 
         ClientServices::SendPacket(&data);
-        Console::Write("CMSG_CHAT_IGNORED", ECHO_COLOR);
     }
+
+    Console::Write("CMSG_CHAT_IGNORED", ECHO_COLOR);
     return true;
 }
 
