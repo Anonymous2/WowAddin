@@ -119,28 +119,22 @@ BOOL CCommand_CreateGuildCommand(char const* cmd, char const* args)
 BOOL CCommand_SendIgnoreCommand(char const* cmd, char const* args)
 {
     //! Send '<name> is ignoring you.' to target X times (this message can't be blocked).
+    uint64 targetGuid = -1;
+
+    if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
+        if (CGObject_C* target = ObjectMgr::GetObjectPtr(player->GetValue<uint64>(UNIT_FIELD_TARGET), TYPEMASK_PLAYER))
+            targetGuid = target->GetValue<uint64>(OBJECT_FIELD_GUID);
+
+    if (targetGuid == -1)
+        return;
+
     long floodCount = atoi(args);
 
     for (long i = 0; i < floodCount; ++i)
     {
         CDataStore data;
         data.PutInt32(CMSG_CHAT_IGNORED);
-
-        if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
-        {
-            CGObject_C* target = ObjectMgr::GetObjectPtr(player->GetValue<uint64>(UNIT_FIELD_TARGET), TYPEMASK_PLAYER);
-
-            if (!target)
-                target = ObjectMgr::GetObjectPtr(player->GetValue<uint64>(UNIT_FIELD_TARGET), TYPEMASK_UNIT);
-
-            if (target)
-                data.PutInt64(target->GetValue<uint64>(OBJECT_FIELD_GUID)); // guid
-            else
-                data.PutInt64(ObjectMgr::GetActivePlayerGuid()); // guid (just send own, we need to send one..)
-        }
-        else
-            data.PutInt64(ObjectMgr::GetActivePlayerGuid()); // guid (just send own, we need to send one..)
-
+        data.PutInt64(targetGuid);
         data.PutInt8(1); // unk
 
         ClientServices::SendPacket(&data);
