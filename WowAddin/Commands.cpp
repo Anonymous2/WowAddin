@@ -126,7 +126,7 @@ BOOL CCommand_SendIgnoreCommand(char const* cmd, char const* args)
             targetGuid = target->GetValue<uint64>(OBJECT_FIELD_GUID);
 
     if (targetGuid == -1)
-        return;
+        return true;
 
     long floodCount = atoi(args);
 
@@ -139,7 +139,9 @@ BOOL CCommand_SendIgnoreCommand(char const* cmd, char const* args)
         ClientServices::SendPacket(&data);
     }
 
-    Console::Write("CMSG_CHAT_IGNORED", ECHO_COLOR);
+    std::stringstream ss;
+    ss << "CMSG_CHAT_IGNORED sent " << floodCount << " times";
+    Console::Write(ss.str().c_str(), ECHO_COLOR);
     return true;
 }
 
