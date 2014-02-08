@@ -40,7 +40,8 @@ BOOL CCommand_Beastmaster(char const* cmd, char const* args)
 {
     CDataStore data(CMSG_BEASTMASTER);
     int state = _strnicmp(args, "off", INT_MAX) != 0;
-    data.PutInt8(state);
+	data.PutInt8(state);
+	data.Finalize();
     ClientServices::SendPacket(&data);
 
     Console::Write("Beastmaster mode is %s", ECHO_COLOR, state ? "on" : "off");
@@ -52,7 +53,8 @@ BOOL CCommand_Invis(char const* cmd, char const* args)
 {
     CDataStore data(CMSG_GM_INVIS);
     int state = _strnicmp(args, "off", INT_MAX) != 0;
-    data.PutInt32(state);
+	data.PutInt32(state);
+	data.Finalize();
     ClientServices::SendPacket(&data);
 
     Console::Write("GM invis mode is %s", ECHO_COLOR, state ? "on" : "off");
@@ -63,7 +65,8 @@ BOOL CCommand_Invis(char const* cmd, char const* args)
 BOOL CCommand_DBLookup(char const* cmd, char const* args)
 {
     CDataStore data(CMSG_DBLOOKUP);
-    data.PutString(args);
+	data.PutString(args);
+	data.Finalize();
     ClientServices::SendPacket(&data);
 
     return TRUE;
@@ -96,7 +99,8 @@ BOOL CCommand_TaxiBenchmarkServer(char const* cmd, char const* args)
 {
     CDataStore data;
     data.PutInt32(CMSG_SET_TAXI_BENCHMARK_MODE);
-    data.PutInt8(1);
+	data.PutInt8(1);
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_SET_TAXI_BENCHMARK_MODE", ECHO_COLOR);
     return true;
@@ -107,7 +111,8 @@ BOOL CCommand_CreateGuildCommand(char const* cmd, char const* args)
     CDataStore data;
     data.PutInt32(CMSG_GUILD_CREATE);
     std::string guildname = std::string(args);
-    data.PutString(guildname.c_str());
+	data.PutString(guildname.c_str());
+	data.Finalize();
     ClientServices::SendPacket(&data);
 
     std::ostringstream ss;
@@ -136,6 +141,7 @@ BOOL CCommand_SendIgnoreCommand(char const* cmd, char const* args)
         data.PutInt32(CMSG_CHAT_IGNORED);
         data.PutInt64(targetGuid);
         data.PutInt8(1); // unk
+		data.Finalize();
         ClientServices::SendPacket(&data);
     }
 
@@ -147,17 +153,15 @@ BOOL CCommand_SendIgnoreCommand(char const* cmd, char const* args)
 
 BOOL CCommand_LootRollCommand(char const* cmd, char const* args)
 {
-    CDataStore data;
-    data.PutInt32(CMSG_LOOT_ROLL);
-
     std::string itemGuid = strtok((char*)args, " ");
     std::string lootType = strtok(NULL, " "); // loottype, 0=pass, 1=need, 2=greed
 
+    CDataStore data;
+    data.PutInt32(CMSG_LOOT_ROLL);
     data.PutInt64(int64(std::atof(itemGuid.c_str()))); // itemguid to roll for
     data.PutInt32(1); // itemslot, unused
-
-    data.PutInt8(int8(std::atof(lootType.c_str())));
-    
+	data.PutInt8(int8(std::atof(lootType.c_str())));
+	data.Finalize();
     ClientServices::SendPacket(&data);
 
     std::stringstream ss;
@@ -172,23 +176,23 @@ BOOL CCommand_CharRenameCommand(char const* cmd, char const* args)
     data.PutInt32(CMSG_CHAR_RENAME);
     data.PutInt64(ObjectMgr::GetActivePlayerGuid());
     std::string newName = strtok((char*)args, " ");
-    data.PutString(newName.c_str());
-    
+	data.PutString(newName.c_str());
+	data.Finalize();
     ClientServices::SendPacket(&data);
+
     Console::Write("CMSG_CHAR_RENAME", ECHO_COLOR);
     return true;
 }
 
 BOOL CCommand_TeleportCommand(char const* cmd, char const* args)
 {
-    CDataStore data;
-    data.PutInt32(CMSG_WORLD_TELEPORT);
-
     std::string mapid = strtok((char*)args, " ");
     std::string posX = strtok(NULL, " ");
     std::string posY = strtok(NULL, " ");
     std::string posZ = strtok(NULL, " ");
 
+    CDataStore data;
+    data.PutInt32(CMSG_WORLD_TELEPORT);
     data.PutInt32(50); // time in ms, nfi what its used for
     data.PutInt32(int32(std::atof(mapid.c_str())));
     data.PutFloat(float(std::atof(posX.c_str())));
@@ -196,8 +200,9 @@ BOOL CCommand_TeleportCommand(char const* cmd, char const* args)
     data.PutFloat(float(std::atof(posZ.c_str())));
     data.PutInt32(int32(std::atof(mapid.c_str())));
     data.PutFloat(3.141593f); // orientation
-    
+	data.Finalize();
     ClientServices::SendPacket(&data);
+
     Console::Write("CMSG_WORLD_TELEPORT", ECHO_COLOR);
     return true;
 }
@@ -218,23 +223,22 @@ BOOL CCommand_CreateCharCommand(char const* cmd, char const* args)
     std::string facialHair = strtok(NULL, " ");
     std::string outfitId = strtok(NULL, " ");
 
+    CDataStore data;
+    data.PutInt32(CMSG_CHAR_CREATE);
+    data.PutString(charname.c_str());
+    data.PutInt8(1); // race, human
+    data.PutInt8(1); // class, warrior
+    data.PutInt8(0); // gender, male
+    data.PutInt8(int8(std::atof(skin.c_str()))); // skin, guess
+    data.PutInt8(int8(std::atof(face.c_str()))); // face, guess
+    data.PutInt8(int8(std::atof(hairStyle.c_str()))); // hairStyle, guess
+    data.PutInt8(int8(std::atof(hairColor.c_str()))); // hairColor, guess
+    data.PutInt8(int8(std::atof(facialHair.c_str()))); // facialHair, guess
+    data.PutInt8(int8(std::atof(outfitId.c_str()))); // outfitId, guess
+	data.Finalize();
+
     for (int i = 0; i < 2000; ++i)
-    {
-        CDataStore data;
-        data.PutInt32(CMSG_CHAR_CREATE);
-        data.PutString(charname.c_str());
-        data.PutInt8(1); // race, human
-        data.PutInt8(1); // class, warrior
-        data.PutInt8(0); // gender, male
-        data.PutInt8(int8(std::atof(skin.c_str()))); // skin, guess
-        data.PutInt8(int8(std::atof(face.c_str()))); // face, guess
-        data.PutInt8(int8(std::atof(hairStyle.c_str()))); // hairStyle, guess
-        data.PutInt8(int8(std::atof(hairColor.c_str()))); // hairColor, guess
-        data.PutInt8(int8(std::atof(facialHair.c_str()))); // facialHair, guess
-        data.PutInt8(int8(std::atof(outfitId.c_str()))); // outfitId, guess
-        
         ClientServices::SendPacket(&data);
-    }
 
     Console::Write("CMSG_CHAR_CREATE: %s", ECHO_COLOR, charname.c_str());
     return true;
@@ -251,15 +255,9 @@ BOOL CCommand_DeleteCharCommand(char const* cmd, char const* args)
     CDataStore data;
     data.PutInt32(CMSG_CHAR_DELETE);
     int guid = atoi(args);
-    data.PutInt64(guid);
-    
+	data.PutInt64(guid);
+	data.Finalize();
     ClientServices::SendPacket(&data);
-
-    // not doing what we expeted
-    //CDataStore data2;
-    //data2.PutInt32(CMSG_CHAR_ENUM);
-    //data2.Finalize();
-    //ClientServices::SendPacket(&data2);
 
     Console::Write("CMSG_CHAR_DELETE & CMSG_CHAR_ENUM: %i", ECHO_COLOR, guid);
     return true;
@@ -273,11 +271,12 @@ BOOL CCommand_CharLoginCommand(char const* cmd, char const* args)
         return true;
     }
 
+    int guid = atoi(args);
+
     CDataStore data;
     data.PutInt32(CMSG_PLAYER_LOGIN);
-    int guid = atoi(args);
-    data.PutInt64(guid);
-    
+	data.PutInt64(guid);
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_PLAYER_LOGIN", ECHO_COLOR);
     return true;
@@ -286,7 +285,8 @@ BOOL CCommand_CharLoginCommand(char const* cmd, char const* args)
 BOOL CCommand_HeartAndResurrect(char const* cmd, char const* args)
 {
     CDataStore data;
-    data.PutInt32(CMSG_HEARTH_AND_RESURRECT);
+	data.PutInt32(CMSG_HEARTH_AND_RESURRECT);
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_HEARTH_AND_RESURRECT", ECHO_COLOR);
     return true;
@@ -303,6 +303,7 @@ BOOL CCommand_OfferPetition(char const* cmd, char const* args)
             data.PutInt32(0); // junk
             data.PutInt64(1); // petitionguid
             data.PutInt64(target->GetValue<uint64>(OBJECT_FIELD_GUID)); // plguid
+			data.Finalize();
             ClientServices::SendPacket(&data);
             Console::Write("CMSG_GUILD_BANKER_ACTIVATE", ECHO_COLOR);
         }
@@ -331,6 +332,7 @@ BOOL CCommand_UseItem(char const* cmd, char const* args)
 	data.PutInt32(int32(std::atof(glyphIndex.c_str())));
 	data.PutInt8(int32(std::atof(castFlags.c_str())));
 	data.PutInt32(int32(std::atof(targetMask.c_str())));
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_USE_ITEM", ECHO_COLOR);
     return true;
@@ -345,7 +347,8 @@ BOOL CCommand_HonorInspectCommand(char const* cmd, char const* args)
     {
         CDataStore data;
         data.PutInt32(MSG_INSPECT_HONOR_STATS);
-        data.PutInt64(guid);
+		data.PutInt64(guid);
+		data.Finalize();
         ClientServices::SendPacket(&data);
         Console::Write("MSG_INSPECT_HONOR_STATS", ECHO_COLOR);
     }
@@ -355,11 +358,12 @@ BOOL CCommand_HonorInspectCommand(char const* cmd, char const* args)
 
 BOOL CCommand_SetAmmoCommand(char const* cmd, char const* args)
 {
+    int ammoItemId = atoi(args);
+
     CDataStore data;
     data.PutInt32(CMSG_SET_AMMO);
-    int ammoItemId = atoi(args);
-    data.PutInt32(ammoItemId);
-    
+	data.PutInt32(ammoItemId);
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_SET_AMMO: %u", ECHO_COLOR, ammoItemId);
     return true;
@@ -391,8 +395,8 @@ BOOL CCommand_ReportBug(char const* cmd, char const* args)
         data.PutInt32(message.length());
         data.PutString(message.c_str());
         data.PutInt32(header.length());
-        data.PutString(header.c_str());
-        
+		data.PutString(header.c_str());
+		data.Finalize();
         ClientServices::SendPacket(&data);
     }
 
@@ -402,28 +406,32 @@ BOOL CCommand_ReportBug(char const* cmd, char const* args)
 
 BOOL CCommand_LootGuidCommand(char const* cmd, char const* args)
 {
+    int lootGuid = atoi(args);
+
     CDataStore data;
     data.PutInt32(CMSG_LOOT);
-    int lootGuid = atoi(args);
-    data.PutInt64(lootGuid);
-    
+	data.PutInt64(lootGuid);
+	data.Finalize();
     ClientServices::SendPacket(&data);
+
     Console::Write("CMSG_LOOT: %u", ECHO_COLOR, lootGuid);
     return true;
 }
 
 BOOL CCommand_TextEmoteCommand(char const* cmd, char const* args)
 {
-    CDataStore data;
-    data.PutInt32(CMSG_TEXT_EMOTE);
     std::string text_emote = strtok((char*)args, " "); // Dance = 34
     std::string emoteNum = strtok(NULL, " ");          // Dance = 4294967295
     std::string guid = strtok(NULL, " ");              // Dance = 0
+
+    CDataStore data;
+    data.PutInt32(CMSG_TEXT_EMOTE);
     data.PutInt32(int32(std::atof(text_emote.c_str())));
     data.PutInt32(int32(std::atof(emoteNum.c_str())));
-    data.PutInt64(int64(std::atof(guid.c_str())));
-    
+	data.PutInt64(int64(std::atof(guid.c_str())));
+	data.Finalize();
     ClientServices::SendPacket(&data);
+
     Console::Write("CMSG_TEXT_EMOTE", ECHO_COLOR);
     return true;
 }
@@ -484,7 +492,8 @@ BOOL CCommand_Chat(char const* cmd, char const* args)
     std::string message = strtok(NULL, " ");
     data.PutInt32(atoi(type.c_str()));
     data.PutInt32(atoi(lang.c_str()));
-    data.PutString(message.c_str());
+	data.PutString(message.c_str());
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_MESSAGECHAT", ECHO_COLOR);
     return true;
@@ -496,7 +505,8 @@ BOOL CCommand_Say(char const* cmd, char const* args)
     data.PutInt32(CMSG_MESSAGECHAT);
     data.PutInt32(1); // say
     data.PutInt32(0); // universal
-    data.PutString(args);
+	data.PutString(args);
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_MESSAGECHAT say", ECHO_COLOR);
     return true;
@@ -508,7 +518,8 @@ BOOL CCommand_Yell(char const* cmd, char const* args)
     data.PutInt32(CMSG_MESSAGECHAT);
     data.PutInt32(6); // yell
     data.PutInt32(0); // universal
-    data.PutString(args);
+	data.PutString(args);
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_MESSAGECHAT yell", ECHO_COLOR);
     return true;
@@ -520,7 +531,8 @@ BOOL CCommand_Emote(char const* cmd, char const* args)
     data.PutInt32(CMSG_MESSAGECHAT);
     data.PutInt32(10); // emote
     data.PutInt32(0); // universal
-    data.PutString(args);
+	data.PutString(args);
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_MESSAGECHAT emote", ECHO_COLOR);
     return true;
@@ -563,6 +575,7 @@ BOOL CCommand_UnlearnSkil(char const* cmd, char const* args)
     CDataStore data;
     data.PutInt32(CMSG_UNLEARN_SKILL);
     data.PutInt32(atoi(args)); //! Skill id
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_UNLEARN_SKILL", ECHO_COLOR);
     return true;
@@ -574,6 +587,7 @@ BOOL CCommand_ActiveGuildBank(char const* cmd, char const* args)
     data.PutInt32(CMSG_GUILD_BANKER_ACTIVATE);
     data.PutInt64(17370386905627141050); //! Stormwind bank
     data.PutInt8(1); //! sendallSlots
+	data.Finalize();
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_GUILD_BANKER_ACTIVATE", ECHO_COLOR);
     return true;
