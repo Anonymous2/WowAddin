@@ -1206,7 +1206,7 @@ enum NETMESSAGE
     CMSG_SET_ARENA_MEMBER_SEASON_GAMES              = 0x4B1,
     SMSG_SET_ITEM_PURCHASE_DATA                     = 0x4B2,
     CMSG_GET_ITEM_PURCHASE_DATA                     = 0x4B3,
-    CMSG_ITEM_PURCHASE_REFUND                       = 0x4B4,
+    CMSG_ITEM_REFUND                       = 0x4B4,
     SMSG_ITEM_PURCHASE_REFUND_RESULT                = 0x4B5,
     CMSG_CORPSE_TRANSPORT_QUERY                     = 0x4B6,
     SMSG_CORPSE_TRANSPORT_QUERY                     = 0x4B7,

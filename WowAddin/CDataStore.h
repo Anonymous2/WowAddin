@@ -10,6 +10,7 @@ typedef CDataStore& (__thiscall *PutInt64Ptr)(CDataStore *pData, int64 val);
 typedef CDataStore& (__thiscall *PutFloatPtr)(CDataStore *pData, float val);
 typedef CDataStore& (__thiscall *PutStringPtr)(CDataStore *pData, char const* pString);
 typedef CDataStore& (__thiscall *PutBytesPtr)(CDataStore *pData, uint8* pBuf, uint32 size);
+typedef CDataStore& (__thiscall *PutWowGUIDPtr)(int64& val, CDataStore *pData); // params are switched
 
 typedef CDataStore& (__thiscall *GetInt8Ptr)(CDataStore *pData, int8& val);
 typedef CDataStore& (__thiscall *GetInt16Ptr)(CDataStore *pData, int16& val);
@@ -18,6 +19,7 @@ typedef CDataStore& (__thiscall *GetInt64Ptr)(CDataStore *pData, int64& val);
 typedef CDataStore& (__thiscall *GetFloatPtr)(CDataStore *pData, float& val);
 typedef CDataStore& (__thiscall *GetStringPtr)(CDataStore *pData, char* pString, uint32 maxChars);
 typedef CDataStore& (__thiscall *GetBytesPtr)(CDataStore *pData, uint8* pBuf, uint32 numBytes);
+typedef CDataStore& (__thiscall *GetWowGUIDPtr)(CDataStore *pData, int64& val);
 
 typedef void (__thiscall *FinalizePtr)(CDataStore *pData);
 typedef void (__thiscall *DestroyPtr)(CDataStore *pData);
@@ -41,6 +43,8 @@ private:
     static PutFloatPtr fpPutFloat;
     static PutStringPtr fpPutString;
     static PutBytesPtr fpPutBytes;
+    static PutWowGUIDPtr fpPutWowGUID;
+
     static GetInt8Ptr fpGetInt8;
     static GetInt16Ptr fpGetInt16;
     static GetInt32Ptr fpGetInt32;
@@ -48,6 +52,8 @@ private:
     static GetFloatPtr fpGetFloat;
     static GetStringPtr fpGetString;
     static GetBytesPtr fpGetBytes;
+    static GetWowGUIDPtr fpGetWowGUID;
+
     static FinalizePtr fpFinalize;
     static DestroyPtr fpDestroy;
 public:
@@ -61,7 +67,8 @@ public:
     CDataStore& PutInt64(int64 val) { return fpPutInt64(this, val); }
     CDataStore& PutFloat(float val) { return fpPutFloat(this, val); }
     CDataStore& PutString(char const* pString) { return fpPutString(this, pString); }
-    CDataStore& PutPutBytes(uint8* pBuf, uint32 size) { return fpPutBytes(this, pBuf, size); }
+    CDataStore& PutBytes(uint8* pBuf, uint32 size) { return fpPutBytes(this, pBuf, size); }
+    CDataStore& PutPackedGUID(int64& val) { return fpPutWowGUID(val, this); }
 
     CDataStore& GetInt8(int8& val) { return fpGetInt8(this, val); }
     CDataStore& GetInt16(int16& val) { return fpGetInt16(this, val); }
@@ -70,6 +77,7 @@ public:
     CDataStore& GetFloat(float& val) { return fpGetFloat(this, val); }
     CDataStore& GetString(char* pString, uint32 maxChars) { return fpGetString(this, pString, maxChars); }
     CDataStore& GetBytes(uint8* pBuf, uint32 numBytes) { return fpGetBytes(this, pBuf, numBytes); }
+    CDataStore& GetPackedGUID(int64& val) { return fpGetWowGUID(this, val); }
 
     void Finalize() { fpFinalize(this); }
 };

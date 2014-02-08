@@ -28,7 +28,6 @@ public:
     static uint64 GetActivePlayerGuid() { return fpGetActivePlayerGuid(); }
     static CGObject_C *GetObjectPtr(uint64 objectGuid, TypeMask objectTypeMask) { return fpGetObjectPtr(objectGuid, objectTypeMask, "", 0); }
     static BOOL EnumVisibleObjects(VisibleObjectsEnumProc proc, void *param) { return fpEnumVisibleObjects(proc, param); }
-	static BOOL IsInWorld() { return fpGetActivePlayerGuid() != 0; }
 private:
     static ClntObjMgrGetActivePlayerGuidPtr fpGetActivePlayerGuid;
     static ClntObjMgrObjectPtr fpGetObjectPtr;

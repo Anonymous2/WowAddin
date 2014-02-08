@@ -84,7 +84,7 @@ BOOL ShowObjectsEnumProc(uint64 objectGuid, void *param)
 
 BOOL CCommand_ShowObjects(char const* cmd, char const* args)
 {
-	if (!ObjectMgr::IsInWorld())
+	if (!ObjectMgr::GetActivePlayerGuid())
 	{
 		Console::Write("Error: Not in world!", ERROR_COLOR);
 		return TRUE;
@@ -439,7 +439,7 @@ BOOL CCommand_TextEmoteCommand(char const* cmd, char const* args)
 BOOL CCommand_RefundItem(char const* cmd, char const* args)
 {
     CDataStore data;
-    data.PutInt32(CMSG_ITEM_PURCHASE_REFUND);
+    data.PutInt32(CMSG_ITEM_REFUND);
     data.PutInt64(atoi(args)); // guid
     data.Finalize();
     ClientServices::SendGamePacket(&data);
@@ -668,4 +668,30 @@ BOOL CCommand_UseMouseOverGameobject(char const* cmd, char const* args)
     }
 
     return true;
+}
+
+BOOL CCommand_MoveKnockbackAck(char const* cmd, char const* args)
+{
+	if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
+	{
+		CDataStore data;
+		data.PutInt32(CMSG_MOVE_KNOCK_BACK_ACK);
+		int64 guid = player->GetValue<uint64>(OBJECT_FIELD_GUID);
+		data.PutPackedGUID(guid);
+		data.PutInt32(0);
+		data.PutInt16(0);
+		data.PutInt32(0);
+		data.PutFloat(0);
+		data.PutFloat(0);
+		data.PutFloat(0);
+		data.PutFloat(0);
+		data.PutInt32(0);
+		data.PutInt32(0);
+		data.Finalize();
+		ClientServices::SendGamePacket(&data);
+
+		Console::Write("CMSG_MOVE_KNOCK_BACK_ACK", ECHO_COLOR);
+	}
+
+	return true;
 }

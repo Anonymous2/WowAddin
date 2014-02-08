@@ -9,6 +9,10 @@ CDataStore& (__thiscall *CDataStore::fpPutInt64)(CDataStore *pData, int64 val) =
 CDataStore& (__thiscall *CDataStore::fpPutFloat)(CDataStore *pData, float val) = reinterpret_cast<PutFloatPtr>(0x0047B160);
 CDataStore& (__thiscall *CDataStore::fpPutString)(CDataStore *pData, char const* pString) = reinterpret_cast<PutStringPtr>(0x0047B300);
 CDataStore& (__thiscall *CDataStore::fpPutBytes)(CDataStore *pData, uint8* pBuf, uint32 size) = reinterpret_cast<PutBytesPtr>(0x0047B1C0);
+CDataStore& (__thiscall *CDataStore::fpPutWowGUID)(int64& val, CDataStore *pData) = reinterpret_cast<PutWowGUIDPtr>(0x0076DC80);
+//CDataStore& (__cdecl *CDataStore::fpPutWowGUID)(int64 *val, CDataStore *pData) = reinterpret_cast<PutWowGUIDPtr>(0x0076DC80);
+//CDataStore *__cdecl CDataStore::PutPackedGuid(CDataStore *pData, __int64 &val)
+//0x0076DD00 CDataStore *__cdecl CDataStore::PutPackedGuid(CDataStore *pData, __int64 &val)
 
 CDataStore& (__thiscall *CDataStore::fpGetInt8)(CDataStore *pData, int8& val) = reinterpret_cast<GetInt8Ptr>(0x0047B340);
 CDataStore& (__thiscall *CDataStore::fpGetInt16)(CDataStore *pData, int16& val) = reinterpret_cast<GetInt16Ptr>(0x0047B380);
@@ -17,6 +21,7 @@ CDataStore& (__thiscall *CDataStore::fpGetInt64)(CDataStore *pData, int64& val) 
 CDataStore& (__thiscall *CDataStore::fpGetFloat)(CDataStore *pData, float& val) = reinterpret_cast<GetFloatPtr>(0x0047B440);
 CDataStore& (__thiscall *CDataStore::fpGetString)(CDataStore *pData, char* pString, uint32 maxChars) = reinterpret_cast<GetStringPtr>(0x0047B480);
 CDataStore& (__thiscall *CDataStore::fpGetBytes)(CDataStore *pData, uint8* pBuf, uint32 numBytes) = reinterpret_cast<GetBytesPtr>(0x0047B560);
+CDataStore& (__thiscall *CDataStore::fpGetWowGUID)(CDataStore *pData, int64& val) = reinterpret_cast<GetWowGUIDPtr>(0x0076DC20);
 
 void (__thiscall *CDataStore::fpFinalize)(CDataStore *pData) = reinterpret_cast<FinalizePtr>(0x00401130);
 void (__thiscall *CDataStore::fpDestroy)(CDataStore *pData) = reinterpret_cast<DestroyPtr>(0x00403880);
