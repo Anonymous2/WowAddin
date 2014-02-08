@@ -312,16 +312,25 @@ BOOL CCommand_OfferPetition(char const* cmd, char const* args)
 
 BOOL CCommand_UseItem(char const* cmd, char const* args)
 {
+	std::string bagIndex = strtok((char*)args, " "); // 127
+	std::string slot = strtok(NULL, " "); // 12
+	std::string castCount = strtok(NULL, " "); // 4
+	std::string spellId = strtok(NULL, " "); // 43713
+	std::string itemGUID = strtok(NULL, " "); // 4611686018427388167
+	std::string glyphIndex = strtok(NULL, " "); // 0
+	std::string castFlags = strtok(NULL, " "); // 0
+	std::string targetMask = strtok(NULL, " "); // 0
+
     CDataStore data;
     data.PutInt32(CMSG_USE_ITEM);
-    data.PutInt8(255); //! bagIndex
-    data.PutInt8(12); //! slot
-    data.PutInt8(4); //! castCount
-    data.PutInt32(43713); //! spellId
-    data.PutInt64(4611686018427388167); //! itemGUID
-    data.PutInt32(0); //! glyphIndex
-    data.PutInt8(0); //! castFlags
-    data.PutInt32(0); //! targetMask (TARGET_FLAG_NONE)
+	data.PutInt8(int32(std::atof(bagIndex.c_str())));
+	data.PutInt8(int32(std::atof(slot.c_str())));
+	data.PutInt8(int32(std::atof(castCount.c_str())));
+	data.PutInt32(int32(std::atof(spellId.c_str())));
+	data.PutInt64(int32(std::atof(itemGUID.c_str())));
+	data.PutInt32(int32(std::atof(glyphIndex.c_str())));
+	data.PutInt8(int32(std::atof(castFlags.c_str())));
+	data.PutInt32(int32(std::atof(targetMask.c_str())));
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_USE_ITEM", ECHO_COLOR);
     return true;
@@ -360,7 +369,7 @@ BOOL CCommand_UseGameobjectGuidCommand(char const* cmd, char const* args)
 {
     CDataStore data;
     data.PutInt32(CMSG_GAMEOBJ_USE);
-    int goGuid = _atoi64(args);
+    int64 goGuid = _atoi64(args);
     data.PutInt64(goGuid);
     data.Finalize();
     ClientServices::SendGamePacket(&data);
@@ -412,7 +421,7 @@ BOOL CCommand_TextEmoteCommand(char const* cmd, char const* args)
     std::string guid = strtok(NULL, " ");              // Dance = 0
     data.PutInt32(int32(std::atof(text_emote.c_str())));
     data.PutInt32(int32(std::atof(emoteNum.c_str())));
-    data.PutInt64(int32(std::atof(guid.c_str())));
+    data.PutInt64(int64(std::atof(guid.c_str())));
     
     ClientServices::SendPacket(&data);
     Console::Write("CMSG_TEXT_EMOTE", ECHO_COLOR);
