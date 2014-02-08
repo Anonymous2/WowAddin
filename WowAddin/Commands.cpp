@@ -695,3 +695,30 @@ BOOL CCommand_MoveKnockbackAck(char const* cmd, char const* args)
 
 	return true;
 }
+
+BOOL CCommand_StopFall(char const* cmd, char const* args)
+{
+	if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
+	{
+		CDataStore data;
+		data.PutInt32(CMSG_MOVE_FALL_RESET);
+		int64 guid = player->GetValue<uint64>(OBJECT_FIELD_GUID);
+		data.PutPackedGUID(guid);
+		data.PutInt64(0);
+		data.PutInt32(0);
+		data.PutInt16(0);
+		data.PutInt32(0);
+		data.PutFloat(0);
+		data.PutFloat(0);
+		data.PutFloat(0);
+		data.PutFloat(0);
+		data.PutInt32(0);
+		data.PutInt32(0);
+		data.Finalize();
+		ClientServices::SendGamePacket(&data);
+
+		Console::Write("CMSG_MOVE_FALL_RESET", ECHO_COLOR);
+	}
+
+	return true;
+}

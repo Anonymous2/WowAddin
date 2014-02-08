@@ -75,8 +75,10 @@ void InstallGameConsoleCommands()
     Console::RegisterCommand("yell", CCommand_Yell, CATEGORY_DEBUG, "");
     Console::RegisterCommand("emote", CCommand_Emote, CATEGORY_DEBUG, "");
     Console::RegisterCommand("taxi", CCommand_ActivateTaxi, CATEGORY_DEBUG, "");
-    Console::RegisterCommand("finishtaxi", CCommand_FinishTaxi, CATEGORY_DEBUG, "");
-    Console::RegisterCommand("usemouseovergo", CCommand_UseMouseOverGameobject, CATEGORY_DEBUG, "");
+	Console::RegisterCommand("finishtaxi", CCommand_FinishTaxi, CATEGORY_DEBUG, "");
+	Console::RegisterCommand("usemouseovergo", CCommand_UseMouseOverGameobject, CATEGORY_DEBUG, "");
+	Console::RegisterCommand("knockback", CCommand_MoveKnockbackAck, CATEGORY_DEBUG, "");
+	Console::RegisterCommand("stopfall", CCommand_StopFall, CATEGORY_DEBUG, "");
 }
 
 void UninstallGameConsoleCommands()
