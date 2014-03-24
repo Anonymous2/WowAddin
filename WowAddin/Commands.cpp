@@ -722,3 +722,18 @@ BOOL CCommand_StopFall(char const* cmd, char const* args)
 
 	return true;
 }
+
+BOOL CCommand_AutoStoreLoot(char const* cmd, char const* args)
+{
+    if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
+    {
+        CDataStore data;
+        data.PutInt32(CMSG_AUTOSTORE_LOOT_ITEM);
+        data.PutInt32(atoi(args)); //! lootSlot
+        data.Finalize();
+        ClientServices::SendGamePacket(&data);
+        Console::Write("CMSG_AUTOSTORE_LOOT_ITEM", ECHO_COLOR);
+    }
+
+    return true;
+}

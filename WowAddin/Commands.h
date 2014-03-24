@@ -39,3 +39,4 @@ BOOL CCommand_FinishTaxi(char const* cmd, char const* args);
 BOOL CCommand_UseMouseOverGameobject(char const* cmd, char const* args);
 BOOL CCommand_MoveKnockbackAck(char const* cmd, char const* args);
 BOOL CCommand_StopFall(char const* cmd, char const* args);
+BOOL CCommand_AutoStoreLoot(char const* cmd, char const* args);

@@ -78,7 +78,8 @@ void InstallGameConsoleCommands()
 	Console::RegisterCommand("finishtaxi", CCommand_FinishTaxi, CATEGORY_DEBUG, "");
 	Console::RegisterCommand("usemouseovergo", CCommand_UseMouseOverGameobject, CATEGORY_DEBUG, "");
 	Console::RegisterCommand("knockback", CCommand_MoveKnockbackAck, CATEGORY_DEBUG, "");
-	Console::RegisterCommand("stopfall", CCommand_StopFall, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("stopfall", CCommand_StopFall, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("autostoreloot", CCommand_AutoStoreLoot, CATEGORY_DEBUG, "");
 }
 
 void UninstallGameConsoleCommands()
