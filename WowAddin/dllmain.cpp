@@ -80,6 +80,7 @@ void InstallGameConsoleCommands()
 	Console::RegisterCommand("knockback", CCommand_MoveKnockbackAck, CATEGORY_DEBUG, "");
     Console::RegisterCommand("stopfall", CCommand_StopFall, CATEGORY_DEBUG, "");
     Console::RegisterCommand("autostoreloot", CCommand_AutoStoreLoot, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("setlootmethod", CCommand_SetLootMethod, CATEGORY_DEBUG, "");
 }
 
 void UninstallGameConsoleCommands()

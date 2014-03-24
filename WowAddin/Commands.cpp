@@ -737,3 +737,24 @@ BOOL CCommand_AutoStoreLoot(char const* cmd, char const* args)
 
     return true;
 }
+
+BOOL CCommand_SetLootMethod(char const* cmd, char const* args)
+{
+    if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
+    {
+        std::string lootMethod = strtok((char*)args, " ");
+        std::string lootMaster = strtok(NULL, " ");
+        std::string lootTheshold = strtok(NULL, " ");
+
+        CDataStore data;
+        data.PutInt32(CMSG_LOOT_METHOD);
+        data.PutInt32(atoi(lootMethod.c_str())); //! lootMethod
+        data.PutInt32(atoi(lootMaster.c_str())); //! lootMaster
+        data.PutInt32(atoi(lootTheshold.c_str())); //! lootTheshold
+        data.Finalize();
+        ClientServices::SendGamePacket(&data);
+        Console::Write("CMSG_LOOT_METHOD", ECHO_COLOR);
+    }
+
+    return true;
+}
