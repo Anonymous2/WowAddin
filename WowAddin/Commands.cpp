@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 
+//! useless
 BOOL CCommand_TestCommand(char const* cmd, char const* args)
 {
     Console::Write("Hello from TestCommand: cmd '%s', args '%s'", INPUT_COLOR, cmd, args);
@@ -36,6 +37,7 @@ BOOL CCommand_TestCommand(char const* cmd, char const* args)
     return TRUE;
 }
 
+//! useless
 BOOL CCommand_Beastmaster(char const* cmd, char const* args)
 {
     CDataStore data(CMSG_BEASTMASTER);
@@ -49,6 +51,7 @@ BOOL CCommand_Beastmaster(char const* cmd, char const* args)
     return TRUE;
 }
 
+//! useless
 BOOL CCommand_Invis(char const* cmd, char const* args)
 {
     CDataStore data(CMSG_GM_INVIS);
@@ -62,6 +65,7 @@ BOOL CCommand_Invis(char const* cmd, char const* args)
     return TRUE;
 }
 
+//! useless
 BOOL CCommand_DBLookup(char const* cmd, char const* args)
 {
     CDataStore data(CMSG_DBLOOKUP);
@@ -72,6 +76,7 @@ BOOL CCommand_DBLookup(char const* cmd, char const* args)
     return TRUE;
 }
 
+//! useless
 BOOL ShowObjectsEnumProc(uint64 objectGuid, void *param)
 {
     CGObject_C *pObject = ObjectMgr::GetObjectPtr(objectGuid, TYPEMASK_OBJECT);
@@ -82,6 +87,7 @@ BOOL ShowObjectsEnumProc(uint64 objectGuid, void *param)
     return TRUE;
 }
 
+//! useless
 BOOL CCommand_ShowObjects(char const* cmd, char const* args)
 {
 	if (!ObjectMgr::GetActivePlayerGuid())
@@ -95,6 +101,7 @@ BOOL CCommand_ShowObjects(char const* cmd, char const* args)
     return TRUE;
 }
 
+//! useless
 BOOL CCommand_TaxiBenchmarkServer(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -106,6 +113,7 @@ BOOL CCommand_TaxiBenchmarkServer(char const* cmd, char const* args)
     return true;
 }
 
+//! Create guild with any name. If used in a smart way, allows you to crash other players' clients without a trace.
 BOOL CCommand_CreateGuildCommand(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -121,6 +129,7 @@ BOOL CCommand_CreateGuildCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! Flood a target with ignore messages
 BOOL CCommand_SendIgnoreCommand(char const* cmd, char const* args)
 {
     //! Send '<name> is ignoring you.' to target X times (this message can't be blocked).
@@ -151,6 +160,7 @@ BOOL CCommand_SendIgnoreCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! useless?
 BOOL CCommand_LootRollCommand(char const* cmd, char const* args)
 {
     std::string itemGuid = strtok((char*)args, " ");
@@ -170,6 +180,7 @@ BOOL CCommand_LootRollCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! useless?
 BOOL CCommand_CharRenameCommand(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -184,6 +195,7 @@ BOOL CCommand_CharRenameCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! useless
 BOOL CCommand_TeleportCommand(char const* cmd, char const* args)
 {
     std::string mapid = strtok((char*)args, " ");
@@ -207,6 +219,7 @@ BOOL CCommand_TeleportCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! useless
 BOOL CCommand_CreateCharCommand(char const* cmd, char const* args)
 {
     if (ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
@@ -244,6 +257,7 @@ BOOL CCommand_CreateCharCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! useless
 BOOL CCommand_DeleteCharCommand(char const* cmd, char const* args)
 {
     if (ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
@@ -263,6 +277,7 @@ BOOL CCommand_DeleteCharCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! useless
 BOOL CCommand_CharLoginCommand(char const* cmd, char const* args)
 {
     if (ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
@@ -282,6 +297,7 @@ BOOL CCommand_CharLoginCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! useless
 BOOL CCommand_HeartAndResurrect(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -292,6 +308,7 @@ BOOL CCommand_HeartAndResurrect(char const* cmd, char const* args)
     return true;
 }
 
+//! useless
 BOOL CCommand_OfferPetition(char const* cmd, char const* args)
 {
     if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
@@ -311,6 +328,7 @@ BOOL CCommand_OfferPetition(char const* cmd, char const* args)
     return true;
 }
 
+//! Use item, currently useless
 BOOL CCommand_UseItem(char const* cmd, char const* args)
 {
 	std::string bagIndex = strtok((char*)args, " "); // 127
@@ -338,6 +356,7 @@ BOOL CCommand_UseItem(char const* cmd, char const* args)
     return true;
 }
 
+//! Inspect your mouseover target's honor tab
 BOOL CCommand_HonorInspectCommand(char const* cmd, char const* args)
 {
     uint64 guid = *(uint64*)0x00BD07A0;
@@ -356,6 +375,7 @@ BOOL CCommand_HonorInspectCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! Visually sets your ammo pouch slot to an item even if you don't have it
 BOOL CCommand_SetAmmoCommand(char const* cmd, char const* args)
 {
     int ammoItemId = atoi(args);
@@ -369,6 +389,7 @@ BOOL CCommand_SetAmmoCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! use gameobject guid
 BOOL CCommand_UseGameobjectGuidCommand(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -381,6 +402,7 @@ BOOL CCommand_UseGameobjectGuidCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! Flood!
 BOOL CCommand_ReportBug(char const* cmd, char const* args)
 {
     uint64 timesToSend = atoi(args);
@@ -404,6 +426,7 @@ BOOL CCommand_ReportBug(char const* cmd, char const* args)
     return true;
 }
 
+//! useless?
 BOOL CCommand_LootGuidCommand(char const* cmd, char const* args)
 {
     int lootGuid = atoi(args);
@@ -418,6 +441,7 @@ BOOL CCommand_LootGuidCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! useless?
 BOOL CCommand_TextEmoteCommand(char const* cmd, char const* args)
 {
     std::string text_emote = strtok((char*)args, " "); // Dance = 34
@@ -436,6 +460,7 @@ BOOL CCommand_TextEmoteCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! useless (?)
 BOOL CCommand_RefundItem(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -446,6 +471,7 @@ BOOL CCommand_RefundItem(char const* cmd, char const* args)
     return true;
 }
 
+//! reset talents at skill/profession trainer
 BOOL CCommand_TalentWipeConfirm(char const* cmd, char const* args)
 {
     if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
@@ -464,6 +490,7 @@ BOOL CCommand_TalentWipeConfirm(char const* cmd, char const* args)
     return true;
 }
 
+//! useless
 BOOL CCommand_SpiritHealerActivate(char const* cmd, char const* args)
 {
     uint64 guid = *(uint64*)0x00BD07A0;
@@ -482,6 +509,7 @@ BOOL CCommand_SpiritHealerActivate(char const* cmd, char const* args)
     return true;
 }
 
+//! Chat in universal language
 BOOL CCommand_Chat(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -499,6 +527,7 @@ BOOL CCommand_Chat(char const* cmd, char const* args)
     return true;
 }
 
+//! Say in universal language
 BOOL CCommand_Say(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -512,6 +541,7 @@ BOOL CCommand_Say(char const* cmd, char const* args)
     return true;
 }
 
+//! Yell in universal language
 BOOL CCommand_Yell(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -525,6 +555,7 @@ BOOL CCommand_Yell(char const* cmd, char const* args)
     return true;
 }
 
+//! Emote in universal language
 BOOL CCommand_Emote(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -570,6 +601,7 @@ BOOL CCommand_ChannelInviteCommand(char const* cmd, char const* args)
     return true;
 }
 
+//! useless
 BOOL CCommand_UnlearnSkil(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -581,6 +613,7 @@ BOOL CCommand_UnlearnSkil(char const* cmd, char const* args)
     return true;
 }
 
+//! useless
 BOOL CCommand_ActiveGuildBank(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -593,6 +626,7 @@ BOOL CCommand_ActiveGuildBank(char const* cmd, char const* args)
     return true;
 }
 
+//! Activate taxi path you don't even know. Can also be abused to fly to programmers isle.
 BOOL CCommand_ActivateTaxi(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -633,6 +667,7 @@ BOOL CCommand_ActivateTaxi(char const* cmd, char const* args)
     return true;
 }
 
+//! Instantly finish your current taxi path.
 BOOL CCommand_FinishTaxi(char const* cmd, char const* args)
 {
     CDataStore data;
@@ -652,6 +687,9 @@ BOOL CCommand_FinishTaxi(char const* cmd, char const* args)
     return true;
 }
 
+//! Literally uses the gameobject your mouse is mousing over at when the command is sent. Can be
+//! abused on WSG/EOTS flags; WSG flags can now be picked up from any distance and EOTS flags can
+//! be picked up instantly and while, for example, mounted or stealthed.
 BOOL CCommand_UseMouseOverGameobject(char const* cmd, char const* args)
 {
     uint64 guid = *(uint64*)0x00BD07A0;
@@ -723,6 +761,10 @@ BOOL CCommand_StopFall(char const* cmd, char const* args)
 	return true;
 }
 
+//! Can be abused to loot an item that is not visible to you as often as you want because it is blocked by conditions.
+//! To get a list of items, select all rows from the `conditions` table in your TDB with SourceTypeOrReferenceId on 1
+//! and send this command with the loot slot. Loot slot is the index of the item, so if there's three items in there,
+//! they all have the slots (respectively) 0, 1 and 2.
 BOOL CCommand_AutoStoreLoot(char const* cmd, char const* args)
 {
     if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
@@ -738,6 +780,8 @@ BOOL CCommand_AutoStoreLoot(char const* cmd, char const* args)
     return true;
 }
 
+//! Can be abused to set the master looter to someone not in the group or not eligible to actually become a master looter.
+//! Also possible to set the loot method beyond the max amount of methods, unknown result.
 BOOL CCommand_SetLootMethod(char const* cmd, char const* args)
 {
     if (CGObject_C* player = ObjectMgr::GetObjectPtr(ObjectMgr::GetActivePlayerGuid(), TYPEMASK_PLAYER))
