@@ -41,3 +41,4 @@ BOOL CCommand_MoveKnockbackAck(char const* cmd, char const* args);
 BOOL CCommand_StopFall(char const* cmd, char const* args);
 BOOL CCommand_AutoStoreLoot(char const* cmd, char const* args);
 BOOL CCommand_SetLootMethod(char const* cmd, char const* args);
+BOOL CCommand_CancelMountAura(char const* cmd, char const* args);

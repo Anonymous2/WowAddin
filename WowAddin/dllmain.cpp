@@ -81,6 +81,7 @@ void InstallGameConsoleCommands()
     Console::RegisterCommand("stopfall", CCommand_StopFall, CATEGORY_DEBUG, "");
     Console::RegisterCommand("autostoreloot", CCommand_AutoStoreLoot, CATEGORY_DEBUG, "");
     Console::RegisterCommand("setlootmethod", CCommand_SetLootMethod, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("dismount", CCommand_CancelMountAura, CATEGORY_DEBUG, "");
 }
 
 void UninstallGameConsoleCommands()
