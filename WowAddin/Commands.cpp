@@ -598,6 +598,40 @@ BOOL CCommand_ChannelInviteCommand(char const* cmd, char const* args)
 
     std::ostringstream ss;
     ss << "Sent CMSG_CHANNEL_INVITE " << floodCount << " times";
+    Console::Write(ss.str().c_str(), ECHO_COLOR);
+    return true;
+}
+
+// 124cffff8000\124TInterface\\Icons\\temp.blp:21:21:0:0\124t
+BOOL CCommand_ChannelJoinCommand(char const* cmd, char const* args)
+{
+    std::string channelIdStr = strtok((char*)args, " ");
+    Console::Write("channelId: %s", ECHO_COLOR, channelIdStr.c_str());
+    std::string unk1Str = strtok(NULL, " ");
+    Console::Write("unk1Str: %s", ECHO_COLOR, unk1Str.c_str());
+    std::string unk2Str = strtok(NULL, " ");
+    Console::Write("unk2Str: %s", ECHO_COLOR, unk2Str.c_str());
+    std::string channelName = strtok(NULL, " ");
+    Console::Write("channelName: %s", ECHO_COLOR, channelName.c_str());
+    std::string password = strtok(NULL, " ");
+    Console::Write("password: %s", ECHO_COLOR, password.c_str());
+    long channelId = channelIdStr != "" ? atoi(channelIdStr.c_str()) : 1;
+    long unk1 = unk1Str != "" ? atoi(unk1Str.c_str()) : 1;
+    long unk2 = unk2Str != "" ? atoi(unk2Str.c_str()) : 1;
+
+    Console::Write("args: %s", ECHO_COLOR, (char*)args);
+
+    CDataStore data;
+    data.PutInt32(CMSG_JOIN_CHANNEL);
+    data.PutInt32(channelId); //! channelid
+    data.PutInt32(unk1); //! unk1
+    data.PutInt32(unk2); //! unk2
+    data.PutString(channelName.c_str()); //! channelName
+    data.PutString(password.c_str()); //! password
+    data.Finalize();
+    ClientServices::SendPacket(&data);
+
+    Console::Write("Sent CMSG_CHANNEL_INVITE", ECHO_COLOR);
     return true;
 }
 

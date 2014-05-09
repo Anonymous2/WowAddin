@@ -67,6 +67,7 @@ void InstallGameConsoleCommands()
     Console::RegisterCommand("useitem", CCommand_UseItem, CATEGORY_DEBUG, "");
     Console::RegisterCommand("unlearnskill", CCommand_UnlearnSkil, CATEGORY_DEBUG, "");
     Console::RegisterCommand("channelinvite", CCommand_ChannelInviteCommand, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("channeljoin", CCommand_ChannelJoinCommand, CATEGORY_DEBUG, "");
     Console::RegisterCommand("chat", CCommand_Chat, CATEGORY_DEBUG, "");
     Console::RegisterCommand("refunditem", CCommand_RefundItem, CATEGORY_DEBUG, "");
     Console::RegisterCommand("talentwipeconfirm", CCommand_TalentWipeConfirm, CATEGORY_DEBUG, "");
@@ -82,6 +83,7 @@ void InstallGameConsoleCommands()
     Console::RegisterCommand("autostoreloot", CCommand_AutoStoreLoot, CATEGORY_DEBUG, "");
     Console::RegisterCommand("setlootmethod", CCommand_SetLootMethod, CATEGORY_DEBUG, "");
     Console::RegisterCommand("dismount", CCommand_CancelMountAura, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("settradegold", CCommand_SetTradeGold, CATEGORY_DEBUG, "");
 }
 
 void UninstallGameConsoleCommands()
