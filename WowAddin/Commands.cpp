@@ -850,3 +850,14 @@ BOOL CCommand_CancelMountAura(char const* cmd, char const* args)
 
     return true;
 }
+
+BOOL CCommand_SetTradeGold(char const* cmd, char const* args)
+{
+    CDataStore data;
+    data.PutInt32(CMSG_SET_TRADE_GOLD);
+    data.PutInt32(atoi(args)); //! Skill id
+    data.Finalize();
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_SET_TRADE_GOLD", ECHO_COLOR);
+    return true;
+}
