@@ -44,3 +44,5 @@ BOOL CCommand_AutoStoreLoot(char const* cmd, char const* args);
 BOOL CCommand_SetLootMethod(char const* cmd, char const* args);
 BOOL CCommand_CancelMountAura(char const* cmd, char const* args);
 BOOL CCommand_SetTradeGold(char const* cmd, char const* args);
+BOOL CCommand_SellItem(char const* cmd, char const* args);
+BOOL CCommand_StoreMouseOverGuid(char const* cmd, char const* args);

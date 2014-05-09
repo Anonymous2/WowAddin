@@ -84,6 +84,8 @@ void InstallGameConsoleCommands()
     Console::RegisterCommand("setlootmethod", CCommand_SetLootMethod, CATEGORY_DEBUG, "");
     Console::RegisterCommand("dismount", CCommand_CancelMountAura, CATEGORY_DEBUG, "");
     Console::RegisterCommand("settradegold", CCommand_SetTradeGold, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("sellitem", CCommand_SellItem, CATEGORY_DEBUG, "");
+    Console::RegisterCommand("storeguid", CCommand_StoreMouseOverGuid, CATEGORY_DEBUG, "");
 }
 
 void UninstallGameConsoleCommands()

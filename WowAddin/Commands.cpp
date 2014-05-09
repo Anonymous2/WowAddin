@@ -861,3 +861,41 @@ BOOL CCommand_SetTradeGold(char const* cmd, char const* args)
     Console::Write("CMSG_SET_TRADE_GOLD", ECHO_COLOR);
     return true;
 }
+
+static uint64 lastMouseOverGuid = 0;
+
+uint64 GetLastMouseOverGuid()
+{
+    uint64 x = lastMouseOverGuid;
+    lastMouseOverGuid = 0;
+    return x;
+}
+
+BOOL CCommand_SellItem(char const* cmd, char const* args)
+{
+    uint64 vendorGuid = *(uint64*)0x00BD07A0;
+    uint64 lastMouseOverGuid = GetLastMouseOverGuid();
+
+    CDataStore data;
+    data.PutInt32(CMSG_SELL_ITEM);
+    data.PutInt64(vendorGuid); //! vendor guid
+    data.PutInt64(4611686018898920923); //! item guid
+    data.PutInt32(1); //! count
+    data.Finalize();
+    ClientServices::SendPacket(&data);
+    Console::Write("CMSG_SELL_ITEM", ECHO_COLOR);
+
+    std::ostringstream ss;
+    ss << "Called CMSG_SELL_ITEM. vendorGuid = " << vendorGuid << " lastMouseOverGuid = " << lastMouseOverGuid;
+    Console::Write(ss.str().c_str(), ECHO_COLOR);
+    return true;
+}
+
+BOOL CCommand_StoreMouseOverGuid(char const* cmd, char const* args)
+{
+    lastMouseOverGuid = *(uint64*)0x00BD07A0;
+    std::ostringstream ss;
+    ss << "Stored guid " << lastMouseOverGuid << " - " << *(uint64*)0x00BD07A0;
+    Console::Write(ss.str().c_str(), ECHO_COLOR);
+    return true;
+}
